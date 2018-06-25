@@ -1,5 +1,5 @@
 {
-  "name": "Electron Kite",
+  "name": "ElectronKite",
   "version": "1.0.0",
   "description": "An Electron app to get Buildkite Build States",
   "main": "main.js",

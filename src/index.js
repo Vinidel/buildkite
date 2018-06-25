@@ -1,54 +1,68 @@
 const electron = require('electron');
 const path = require('path');
 const axios = require('axios');
-const BrowserWindow = electron.remote.BrowserWindow;
 const {ipcRenderer} = electron;
 
-const addWindowOptions = {frame: false, transparent: true, alwaysOnTop: true, width: 400, height: 200};
-const notifyBtn = document.getElementById('notifyBtn');
-const modalPath = path.join('file://', __dirname, 'add.html')
+const THIRTY_SECONDS = 30000;
+const PASSED = 'passed';
 
-let targetPrice = 0;
+const buildState = {
+  state: '',
+  number: '',
+  message: '',
+  applicationName: 'niss-ui'
+}
 
-const notifyIfGreater = (btcValue, targetPrice) => {
+const setState = (newState) => {
+  buildState.state = newState.state;
+  buildState.number = newState.number;
+  buildState.message = newState.message;
+}
+
+
+const url = 'https://api.buildkite.com/v2/organizations/nib-health-funds-ltd/pipelines/niss-ui/builds?branch=master';
+const options = {
+  method: 'GET',
+  headers: {
+    Authorization: 'Bearer 3f7f9b6a6cfdb929b35e196a044ea1d339c1aafd'
+  },
+  url
+};
+
+const setGreenIcon = () => {
+  document.getElementById('red-state').style.display = 'none';
+  document.getElementById('green-state').style.display = 'block';
+};
+
+const setRedIcon = () => {
+  document.getElementById('green-state').style.display = 'none';
+  document.getElementById('red-state').style.display = 'block';
+};
+
+const notifyIfStateChanged = (newStatus, oldState) => {
   const notification = {
-    title: 'BTC Alert',
-    body: `BTC just beat target price ${btcValue}`,
-    icon: path.join(__dirname, '../assets/images/btc.png')
+    title: 'BK Alert',
+    body: `BK build changed to ${newStatus}`
   }
 
-  if(targetPrice && btcValue > targetPrice) {
+  if(oldState.state && oldState.state !== newState.state) {
     new window.Notification(notification.title, notification);
   }
 }
 
-const getBtc = () => {
-  axios.get('https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH&tsyms=AUD')
-    .then(res => {
-      // const cryptos = res.data.BTC.AUD;
-      // document.querySelector('h1').innerHTML = `$${cryptos.toLocaleString('en')}`
-      const {BTC, ETH} = res.data;
-      document.getElementById('btc-value').innerHTML = `$${BTC.AUD.toLocaleString('en')}`
-      document.getElementById('eth-value').innerHTML = `$${ETH.AUD.toLocaleString('en')}`
-      return res;
+const getBuildStatus = () => {
+  axios(options)
+    .then(res => (res.data[0]))
+    .then((data) => {
+      notifyIfStateChanged(data, buildState)
+      return data;
     })
-    .then((res) => {
-      ipcRenderer.send('fetched-price', res.data);
-      return res;
+    .then((data) => {
+      setState(data);
+      data.state === PASSED ? setGreenIcon() : setRedIcon();
+      ipcRenderer.send('fetched-build-status');
+      return data;
     })
-    .then((res) => notifyIfGreater(res.data.BTC.USD, targetPrice))
 }
-
-setInterval(getBtc, 3000);
-
-notifyBtn.addEventListener('click', (event) => {
-  let win = new BrowserWindow(addWindowOptions);
-  win.loadURL(modalPath);
-  win.show();
-  win.on('close', () => win = null)
-})
-
-ipcRenderer.on('target-price-val', (event, arg) => {
-  targetPrice = Number(arg);
-  document.getElementById('targetPrice').innerHTML = `$${targetPrice.toLocaleString('en')}`;
-})
+getBuildStatus();
+setInterval(getBuildStatus, THIRTY_SECONDS);
