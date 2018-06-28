@@ -12,13 +12,13 @@ require('electron-reload')(__dirname)
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({width: 400, height: 600})
 
   // and load the index.html of the app.
   mainWindow.loadFile('src/index.html')
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -92,5 +92,10 @@ ipc.on('update-notify-value', (event, arg) => {
 
 
 ipc.on('token-input', (event, arg) => {
-console.log('New price is ', arg);
+  console.log('token-input', arg);
+  mainWindow.webContents.send('token-set', arg);
+});
+
+ipc.on('look-at-this', (event, arg) => {
+  console.log('Set token to ', arg)
 });

@@ -1,30 +1,27 @@
 const electron = require('electron');
-const path = require('path');
-const axios = require('axios');
 const {ipcRenderer} = electron;
-
+const setIcon = require('./buildStatus/setIcon')
 const THIRTY_SECONDS = 30000;
+const getBuildStatus = require('./services/getBuildStatus');
 
 //Button Token
 const tokenBtn = document.getElementById('tokenBtn');
-let tokenValue = '';
+const nissUiUrl = 'https://api.buildkite.com/v2/organizations/nib-health-funds-ltd/pipelines/niss-ui/builds?branch=master';
+const nissAdminUrl = 'https://api.buildkite.com/v2/organizations/nib-health-funds-ltd/pipelines/niss-admin/builds?branch=master';
+const nissNailgunUrl = 'https://api.buildkite.com/v2/organizations/nib-health-funds-ltd/pipelines/niss-nailgun-api/builds?branch=master';
+const nissProviderUrl = 'https://api.buildkite.com/v2/organizations/nib-health-funds-ltd/pipelines/nise-provider/builds?branch=master';
 
-///Get build options
-//Bearer 3f7f9b6a6cfdb929b35e196a044ea1d339c1aafd
-const url = 'https://api.buildkite.com/v2/organizations/nib-health-funds-ltd/pipelines/niss-ui/builds?branch=master';
-const options = {
-  method: 'GET',
-  headers: {
-    Authorization: 'Bearer 3f7f9b6a6cfdb929b35e196a044ea1d339c1aafd'
-  },
-  url
-};
+const getNissUiBuild = getBuildStatus(nissUiUrl);
+const getNissAdminBuild = getBuildStatus(nissAdminUrl);
+const getNissNailgunBuild = getBuildStatus(nissNailgunUrl);
+const getNissProviderBuild = getBuildStatus(nissProviderUrl);
+
+
+let token = '';
 
 tokenBtn.addEventListener('click', (e) => {
-  tokenValue = document.getElementById('tokenInput').value;
-  options.headers.Authorization = `Bearer ${tokenValue}`;
-  getBuildStatus();
-  // ipcRenderer.send('token-input', document.getElementById('tokenInput').value);
+  token = document.getElementById('tokenInput').value;
+  getBuild();
 })
 
 
@@ -41,42 +38,6 @@ const setState = (newState) => {
   buildState.message = newState.message;
 }
 
-
-
-const setGreenIcon = () => {
-  document.getElementById('yellow-state').style.display = 'none';
-  document.getElementById('red-state').style.display = 'none';
-  document.getElementById('green-state').style.display = 'block';
-};
-
-const setRedIcon = () => {
-  document.getElementById('yellow-state').style.display = 'none';
-  document.getElementById('green-state').style.display = 'none';
-  document.getElementById('red-state').style.display = 'block';
-};
-
-const setYellowIcon = () => {
-  document.getElementById('red-state').style.display = 'none';
-  document.getElementById('green-state').style.display = 'none';
-  document.getElementById('yellow-state').style.display = 'block';
-};
-
-const setBuildIcon = (status) => {
-  switch (status) {
-    case 'passed':
-      setGreenIcon();
-    break;
-    case 'failed':
-      setRedIcon();
-    break;
-    case 'running':
-      setYellowIcon();
-     break;
-    default:
-      break;
-  }
-}
-
 const notifyIfStateChanged = (newStatus, oldState) => {
   const notification = {
     title: 'BK Alert',
@@ -88,20 +49,25 @@ const notifyIfStateChanged = (newStatus, oldState) => {
   }
 }
 
-const getBuildStatus = () => {
-  console.log(options)
-  axios(options)
-    .then(res => (res.data[0]))
+
+Promise.all([getNissUiBuild, getNissAdminBuild])
+  .then(function(values) {
+    console.log(values);
+});
+
+const getBuild = () => {
+  return Promise.all([getNissUiBuild(token), getNissAdminBuild(token), getNissNailgunBuild(token), getNissProviderBuild(token)])
     .then((data) => {
-      notifyIfStateChanged(data, buildState)
+      // notifyIfStateChanged(data[0], buildState)
       return data;
     })
     .then((data) => {
-      setState(data);
-      setBuildIcon(data.state);
+      // setState(data);
+      data.map(setIcon);
       ipcRenderer.send('fetched-build-status');
       return data;
     })
 }
-getBuildStatus();
-setInterval(getBuildStatus, THIRTY_SECONDS);
+
+// getBuild();
+setInterval(getBuild, THIRTY_SECONDS);
