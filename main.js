@@ -37,6 +37,7 @@ function createWindow () {
           shell.openExternal('http://coinmarketcap.com');
         }
       },
+      
       {type: 'separator'},
       {
         label: 'Exit' , click() {
@@ -44,7 +45,18 @@ function createWindow () {
         }
       }
     ]
-  }])
+  },
+  {
+  label: "Edit",
+  submenu: [
+      { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+      { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+      { type: "separator" },
+      { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+      { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+      { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+      { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+]}]);
 
   Menu.setApplicationMenu(menu);
 }
@@ -79,6 +91,6 @@ ipc.on('update-notify-value', (event, arg) => {
 })
 
 
-ipc.on('fetched-price', (event, arg) => {
-// console.log('New price is ', arg);
+ipc.on('token-input', (event, arg) => {
+console.log('New price is ', arg);
 });

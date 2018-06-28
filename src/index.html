@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8">
     <title>Buildkite!</title>
-    <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/buildkite.css">
   </head>
   <body>
@@ -20,6 +19,7 @@
           </div>
         </div>
       </div>
+
     <!-- <div class="row">
       <div id="price-container">
         <p class="subtext">Current BTC AUD</p>
@@ -36,35 +36,43 @@
         <button id="notifyBtn">Notify me when...</button>
       </div>
     </div> -->
+  <div class="container">
 
-  <div class="flex items-stretch border border-gray rounded px2 mb2" style="height: 82px;">
-    <div class="flex flex-none items-center pl2 pr2">
-      <span style="position: relative;">
-          <span class="block line-height-1">
-            <svg id="green-state" width="32" height="32" viewBox="0 0 32 32" style="display: none;">
-              <defs style="display: inline;">
-                <circle id="BuildState_42e607ad-be2e-4fea-bf30-507eda0d03be_circle" fill="none" cx="16" cy="16" r="15" stroke="#90c73e" stroke-width="4">
-                </circle>
-                <clipPath id="BuildState_42e607ad-be2e-4fea-bf30-507eda0d03be_strokeClipPath">
-                  <use xlink:href="#BuildState_42e607ad-be2e-4fea-bf30-507eda0d03be_circle">
+      <div>
+          <button id="tokenBtn" class="btn nowrap col-12 btn-primary">Add token</button>
+        </div>
+  
+        <div class="relative light flex-auto sc-fjdhpX cYrrnW">
+          <input id="tokenInput" type="text" class="input borderless"  placeholder="Token">
+        </div>
 
-                  </use>
-                </clipPath>
-              </defs>
-                <use xlink:href="#BuildState_42e607ad-be2e-4fea-bf30-507eda0d03be_circle" clip-path="url(#BuildState_42e607ad-be2e-4fea-bf30-507eda0d03be_strokeClipPath)"></use>
-              <g fill="none" stroke="#90c73e" stroke-width="2">
-                <path d="M13,21V11"></path>
-                <path d="M19,21V11"></path>
-              </g>
-            </svg>
-            <svg id="red-state" width="32" height="32" viewBox="0 0 32 32" style="display: none;"><defs><circle id="BuildState_10697c73-e211-4f41-bcc0-a0c6aa6d6b01_circle" fill="none" cx="16" cy="16" r="15" stroke="#F83F23" stroke-width="4"></circle><clipPath id="BuildState_10697c73-e211-4f41-bcc0-a0c6aa6d6b01_strokeClipPath"><use xlink:href="#BuildState_10697c73-e211-4f41-bcc0-a0c6aa6d6b01_circle"></use></clipPath></defs><use xlink:href="#BuildState_10697c73-e211-4f41-bcc0-a0c6aa6d6b01_circle" clip-path="url(#BuildState_10697c73-e211-4f41-bcc0-a0c6aa6d6b01_strokeClipPath)"></use><g transform="translate(10.000000, 10.000000)" fill="none" stroke="#F83F23" stroke-width="2"><path d="M0.600275489,0.600275489 L11.3997245,11.3997245"></path><path d="M11.3997245,0.600275489 L0.600275489,11.3997245"></path></g></svg>
+      <div class="flex items-stretch border border-gray rounded px2 mb2" style="height: 82px;">
+          <div class="flex flex-none items-center pl2 pr2">
+            <span style="position: relative;">
+                <span class="block line-height-1">
+                  <svg id="green-state" width="32" height="32" viewBox="0 0 32 32" style="display: none;">
+                    <defs style="display: inline;">
+                      <circle id="BuildState_42e607ad-be2e-4fea-bf30-507eda0d03be_circle" fill="none" cx="16" cy="16" r="15" stroke="#90c73e" stroke-width="4">
+                      </circle>
+                      <clipPath id="BuildState_42e607ad-be2e-4fea-bf30-507eda0d03be_strokeClipPath">
+                        <use xlink:href="#BuildState_42e607ad-be2e-4fea-bf30-507eda0d03be_circle">
+      
+                        </use>
+                      </clipPath>
+                    </defs>
+                      <use xlink:href="#BuildState_42e607ad-be2e-4fea-bf30-507eda0d03be_circle" clip-path="url(#BuildState_42e607ad-be2e-4fea-bf30-507eda0d03be_strokeClipPath)"></use>
+                    <polyline points="10 17.61 14.38 20.81 21 11.41" fill="none" stroke="#90c73e" stroke-width="2" stroke-miterlimit="10"></polyline>
+                  </svg>
+                  <svg id="red-state" width="32" height="32" viewBox="0 0 32 32" style="display: none;"><defs><circle id="BuildState_10697c73-e211-4f41-bcc0-a0c6aa6d6b01_circle" fill="none" cx="16" cy="16" r="15" stroke="#F83F23" stroke-width="4"></circle><clipPath id="BuildState_10697c73-e211-4f41-bcc0-a0c6aa6d6b01_strokeClipPath"><use xlink:href="#BuildState_10697c73-e211-4f41-bcc0-a0c6aa6d6b01_circle"></use></clipPath></defs><use xlink:href="#BuildState_10697c73-e211-4f41-bcc0-a0c6aa6d6b01_circle" clip-path="url(#BuildState_10697c73-e211-4f41-bcc0-a0c6aa6d6b01_strokeClipPath)"></use><g transform="translate(10.000000, 10.000000)" fill="none" stroke="#F83F23" stroke-width="2"><path d="M0.600275489,0.600275489 L11.3997245,11.3997245"></path><path d="M11.3997245,0.600275489 L0.600275489,11.3997245"></path></g></svg>
+                  <svg id="yellow-state" width="32" height="32" viewBox="0 0 32 32" style="display: none;"><defs><circle id="BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_circle" fill="none" cx="16" cy="16" r="15" stroke="#fdba12" stroke-width="4"></circle><clipPath id="BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_strokeClipPath"><use xlink:href="#BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_circle"></use></clipPath><mask id="BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_mask" x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse"><polygon class="animation-spin" fill="#fff" points="16 16 9 16 9 9 16 9 16 16 23 16 23 23 16 23 16 16" style="transform-origin: center center 0px;"></polygon></mask></defs><use xlink:href="#BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_circle" clip-path="url(#BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_strokeClipPath)"></use><g mask="url(#BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_mask)"><circle cx="16" cy="16" r="6" fill="none" stroke="#fdba12" stroke-width="2"></circle></g></svg>
+                </span>
+            </span>
+            <div class="truncate"><h2 class="inline h3 regular m0 line-height-2"><span>niss-ui</span></h2><div class="truncate dark-gray" style="margin-top: 3px;"><span class="h4 regular">The main niss app</span></div></div>
+          </div>
           </span>
-      </span>
-      <div class="truncate"><h2 class="inline h3 regular m0 line-height-2"><span>niss-ui</span></h2><div class="truncate dark-gray" style="margin-top: 3px;"><span class="h4 regular">The main niss app</span></div></div>
-    </div>
-
-    </span>
+        </div>    
   </div>
+
 </div>
     <script src="index.js"></script>
   </body>

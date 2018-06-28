@@ -4,7 +4,29 @@ const axios = require('axios');
 const {ipcRenderer} = electron;
 
 const THIRTY_SECONDS = 30000;
-const PASSED = 'passed';
+
+//Button Token
+const tokenBtn = document.getElementById('tokenBtn');
+let tokenValue = '';
+
+///Get build options
+//Bearer 3f7f9b6a6cfdb929b35e196a044ea1d339c1aafd
+const url = 'https://api.buildkite.com/v2/organizations/nib-health-funds-ltd/pipelines/niss-ui/builds?branch=master';
+const options = {
+  method: 'GET',
+  headers: {
+    Authorization: 'Bearer 3f7f9b6a6cfdb929b35e196a044ea1d339c1aafd'
+  },
+  url
+};
+
+tokenBtn.addEventListener('click', (e) => {
+  tokenValue = document.getElementById('tokenInput').value;
+  options.headers.Authorization = `Bearer ${tokenValue}`;
+  getBuildStatus();
+  // ipcRenderer.send('token-input', document.getElementById('tokenInput').value);
+})
+
 
 const buildState = {
   state: '',
@@ -20,24 +42,40 @@ const setState = (newState) => {
 }
 
 
-const url = 'https://api.buildkite.com/v2/organizations/nib-health-funds-ltd/pipelines/niss-ui/builds?branch=master';
-const options = {
-  method: 'GET',
-  headers: {
-    Authorization: 'Bearer 3f7f9b6a6cfdb929b35e196a044ea1d339c1aafd'
-  },
-  url
-};
 
 const setGreenIcon = () => {
+  document.getElementById('yellow-state').style.display = 'none';
   document.getElementById('red-state').style.display = 'none';
   document.getElementById('green-state').style.display = 'block';
 };
 
 const setRedIcon = () => {
+  document.getElementById('yellow-state').style.display = 'none';
   document.getElementById('green-state').style.display = 'none';
   document.getElementById('red-state').style.display = 'block';
 };
+
+const setYellowIcon = () => {
+  document.getElementById('red-state').style.display = 'none';
+  document.getElementById('green-state').style.display = 'none';
+  document.getElementById('yellow-state').style.display = 'block';
+};
+
+const setBuildIcon = (status) => {
+  switch (status) {
+    case 'passed':
+      setGreenIcon();
+    break;
+    case 'failed':
+      setRedIcon();
+    break;
+    case 'running':
+      setYellowIcon();
+     break;
+    default:
+      break;
+  }
+}
 
 const notifyIfStateChanged = (newStatus, oldState) => {
   const notification = {
@@ -45,12 +83,13 @@ const notifyIfStateChanged = (newStatus, oldState) => {
     body: `BK build changed to ${newStatus}`
   }
 
-  if(oldState.state && oldState.state !== newState.state) {
+  if(oldState.state && oldState.state !== newStatus.state) {
     new window.Notification(notification.title, notification);
   }
 }
 
 const getBuildStatus = () => {
+  console.log(options)
   axios(options)
     .then(res => (res.data[0]))
     .then((data) => {
@@ -59,7 +98,7 @@ const getBuildStatus = () => {
     })
     .then((data) => {
       setState(data);
-      data.state === PASSED ? setGreenIcon() : setRedIcon();
+      setBuildIcon(data.state);
       ipcRenderer.send('fetched-build-status');
       return data;
     })
