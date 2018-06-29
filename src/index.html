@@ -19,32 +19,21 @@
           </div>
         </div>
       </div>
-
-    <!-- <div class="row">
-      <div id="price-container">
-        <p class="subtext">Current BTC AUD</p>
-        <h1 id="btc-value" class="price">Loading...</h1>
-      </div>
-
-      <div id="goal-container">
-        <p><img src="../assets/images/up.svg">
-          <span id="targetPrice">Choose a target price</span>
-        </p>
-      </div>
-
-      <div id="right-container">
-        <button id="notifyBtn">Notify me when...</button>
-      </div>
-    </div> -->
   <div class="container">
 
-      <div>
-          <button id="tokenBtn" class="btn nowrap col-12 btn-primary">Add token</button>
-        </div>
-  
-        <div class="relative light flex-auto sc-fjdhpX cYrrnW">
+    <div>
+        <div class="relative light" style="display: inline-block; width: 74%">
+            <input id="tokenInput" type="text" class="input center"  placeholder="Paste the token here" style="display: inline-block;">
+          </div>
+          <div class="" style="display: inline-block;  width: 25%">
+              <button id="tokenBtn" class="btn nowrap btn-primary">Add token</button>
+          </div>
+      
+    </div>
+      
+        <!-- <div class="relative light flex-auto sc-fjdhpX cYrrnW">
           <input id="tokenInput" type="text" class="input borderless"  placeholder="Token">
-        </div>
+        </div> -->
 
       <div class="flex items-stretch border border-gray rounded px2 mb2" style="height: 82px;">
           <div class="flex flex-none items-center pl2 pr2">
@@ -67,7 +56,7 @@
                   <svg id="yellow-state-niss-ui" width="32" height="32" viewBox="0 0 32 32" style="display: none;"><defs><circle id="BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_circle" fill="none" cx="16" cy="16" r="15" stroke="#fdba12" stroke-width="4"></circle><clipPath id="BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_strokeClipPath"><use xlink:href="#BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_circle"></use></clipPath><mask id="BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_mask" x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse"><polygon class="animation-spin" fill="#fff" points="16 16 9 16 9 9 16 9 16 16 23 16 23 23 16 23 16 16" style="transform-origin: center center 0px;"></polygon></mask></defs><use xlink:href="#BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_circle" clip-path="url(#BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_strokeClipPath)"></use><g mask="url(#BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_mask)"><circle cx="16" cy="16" r="6" fill="none" stroke="#fdba12" stroke-width="2"></circle></g></svg>
                 </span>
             </span>
-            <div class="truncate"><h2 class="inline h3 regular m0 line-height-2"><span>niss-ui</span></h2><div class="truncate dark-gray" style="margin-top: 3px;"><span class="h4 regular">The main niss app</span></div></div>
+            <div class="truncate"><h2 class="inline h3 regular m0 line-height-2"><span>niss-ui</span></h2><div class="truncate dark-gray" style="margin-top: 3px;"><span id="appDescription-niss-ui" class="h4 regular">App description</span></div></div>
           </div>
           </span>
       </div>
@@ -94,7 +83,7 @@
                 <svg id="yellow-state-niss-admin" width="32" height="32" viewBox="0 0 32 32" style="display: none;"><defs><circle id="BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_circle" fill="none" cx="16" cy="16" r="15" stroke="#fdba12" stroke-width="4"></circle><clipPath id="BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_strokeClipPath"><use xlink:href="#BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_circle"></use></clipPath><mask id="BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_mask" x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse"><polygon class="animation-spin" fill="#fff" points="16 16 9 16 9 9 16 9 16 16 23 16 23 23 16 23 16 16" style="transform-origin: center center 0px;"></polygon></mask></defs><use xlink:href="#BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_circle" clip-path="url(#BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_strokeClipPath)"></use><g mask="url(#BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_mask)"><circle cx="16" cy="16" r="6" fill="none" stroke="#fdba12" stroke-width="2"></circle></g></svg>
               </span>
           </span>
-          <div class="truncate"><h2 class="inline h3 regular m0 line-height-2"><span>niss-admin</span></h2><div class="truncate dark-gray" style="margin-top: 3px;"><span class="h4 regular">The main niss app</span></div></div>
+          <div class="truncate"><h2 class="inline h3 regular m0 line-height-2"><span>niss-admin</span></h2><div class="truncate dark-gray" style="margin-top: 3px;"><span id="appDescription-niss-admin" class="h4 regular">App description</span></div></div>
         </div>
         </span>
     </div> 
@@ -121,7 +110,7 @@
               <svg id="yellow-state-niss-nailgun-api" width="32" height="32" viewBox="0 0 32 32" style="display: none;"><defs><circle id="BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_circle" fill="none" cx="16" cy="16" r="15" stroke="#fdba12" stroke-width="4"></circle><clipPath id="BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_strokeClipPath"><use xlink:href="#BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_circle"></use></clipPath><mask id="BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_mask" x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse"><polygon class="animation-spin" fill="#fff" points="16 16 9 16 9 9 16 9 16 16 23 16 23 23 16 23 16 16" style="transform-origin: center center 0px;"></polygon></mask></defs><use xlink:href="#BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_circle" clip-path="url(#BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_strokeClipPath)"></use><g mask="url(#BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_mask)"><circle cx="16" cy="16" r="6" fill="none" stroke="#fdba12" stroke-width="2"></circle></g></svg>
             </span>
         </span>
-        <div class="truncate"><h2 class="inline h3 regular m0 line-height-2"><span>niss-nailgun-api</span></h2><div class="truncate dark-gray" style="margin-top: 3px;"><span class="h4 regular">The main niss app</span></div></div>
+        <div class="truncate"><h2 class="inline h3 regular m0 line-height-2"><span>niss-nailgun-api</span></h2><div class="truncate dark-gray" style="margin-top: 3px;"><span id="appDescription-niss-nailgun-api" class="h4 regular">App description</span></div></div>
       </div>
       </span>
     </div> 
@@ -148,7 +137,7 @@
               <svg id="yellow-state-nise-provider" width="32" height="32" viewBox="0 0 32 32" style="display: none;"><defs><circle id="BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_circle" fill="none" cx="16" cy="16" r="15" stroke="#fdba12" stroke-width="4"></circle><clipPath id="BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_strokeClipPath"><use xlink:href="#BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_circle"></use></clipPath><mask id="BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_mask" x="9" y="9" width="14" height="14" maskUnits="userSpaceOnUse"><polygon class="animation-spin" fill="#fff" points="16 16 9 16 9 9 16 9 16 16 23 16 23 23 16 23 16 16" style="transform-origin: center center 0px;"></polygon></mask></defs><use xlink:href="#BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_circle" clip-path="url(#BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_strokeClipPath)"></use><g mask="url(#BuildState_d4261fdc-9e9a-42a9-89b1-cb68fade3b08_mask)"><circle cx="16" cy="16" r="6" fill="none" stroke="#fdba12" stroke-width="2"></circle></g></svg>
             </span>
         </span>
-        <div class="truncate"><h2 class="inline h3 regular m0 line-height-2"><span>nise-provider</span></h2><div class="truncate dark-gray" style="margin-top: 3px;"><span class="h4 regular">The main niss app</span></div></div>
+        <div class="truncate"><h2 class="inline h3 regular m0 line-height-2"><span>nise-provider</span></h2><div class="truncate dark-gray" style="margin-top: 3px;"><span id="appDescription-nise-provider" class="h4 regular">App description</span></div></div>
       </div>
       </span>
     </div>

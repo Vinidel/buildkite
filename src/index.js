@@ -17,6 +17,17 @@ const getNissNailgunBuild = getBuildStatus(nissNailgunUrl);
 const getNissProviderBuild = getBuildStatus(nissProviderUrl);
 
 
+
+//Work in progress
+const setAppDescriotion = (build) => {
+  document.getElementById(`appDescription-${build.pipeline.name}`).innerHTML = build.pipeline.description;
+}
+
+const setValuesToPage = (data) => {
+  setIcon(data);
+  setAppDescriotion(data);
+}
+
 let token = '';
 
 tokenBtn.addEventListener('click', (e) => {
@@ -49,12 +60,6 @@ const notifyIfStateChanged = (newStatus, oldState) => {
   }
 }
 
-
-Promise.all([getNissUiBuild, getNissAdminBuild])
-  .then(function(values) {
-    console.log(values);
-});
-
 const getBuild = () => {
   return Promise.all([getNissUiBuild(token), getNissAdminBuild(token), getNissNailgunBuild(token), getNissProviderBuild(token)])
     .then((data) => {
@@ -63,7 +68,7 @@ const getBuild = () => {
     })
     .then((data) => {
       // setState(data);
-      data.map(setIcon);
+      data.map(setValuesToPage);
       ipcRenderer.send('fetched-build-status');
       return data;
     })

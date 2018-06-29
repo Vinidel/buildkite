@@ -8,7 +8,7 @@ const id = powerSaveBlocker.start('prevent-app-suspension');
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
-// require('electron-reload')(__dirname)
+require('electron-reload')(__dirname)
 
 function createWindow () {
   // Create the browser window.
@@ -18,7 +18,7 @@ function createWindow () {
   mainWindow.loadFile('src/index.html')
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
