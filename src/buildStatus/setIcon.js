@@ -22,10 +22,10 @@ module.exports = (build) => {
       setGreenIcon(build.pipeline.name);
     break;
     case 'failed':
-      setRedIcon();
+      setRedIcon(build.pipeline.name);
     break;
     case 'running':
-      setYellowIcon();
+      setYellowIcon(build.pipeline.name);
      break;
     default:
       break;
