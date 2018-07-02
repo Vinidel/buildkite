@@ -1,8 +1,10 @@
 const electron = require('electron');
-const {ipcRenderer} = electron;
+const {ipcRenderer, shell} = electron;
 const setIcon = require('./buildStatus/setIcon')
 const THIRTY_SECONDS = 30000;
 const getBuildStatus = require('./services/getBuildStatus');
+const composeFunctions = require('./utils/composeFunctions');
+const notifyIfStateChanged = require('./notifications/notifyIfChanged');
 
 //Button Token
 const tokenBtn = document.getElementById('tokenBtn');
@@ -17,15 +19,39 @@ const getNissNailgunBuild = getBuildStatus(nissNailgunUrl);
 const getNissProviderBuild = getBuildStatus(nissProviderUrl);
 
 
+//Opens link in Browser
+document.getElementById('buildLink-niss-ui').addEventListener('click', function(event) {
+  event.preventDefault();
+  shell.openExternal(this.href);
+});
+document.getElementById('buildLink-niss-admin').addEventListener('click', function(event) {
+  event.preventDefault();
+  shell.openExternal(this.href);
+});
+document.getElementById('buildLink-niss-nailgun-api').addEventListener('click', function(event) {
+  event.preventDefault();
+  shell.openExternal(this.href);
+});
+document.getElementById('buildLink-nise-provider').addEventListener('click', function(event) {
+  event.preventDefault();
+  shell.openExternal(this.href);
+});
 
 //Work in progress
-const setAppDescriotion = (build) => {
+const setAppDescription = (build) => {
   document.getElementById(`appDescription-${build.pipeline.name}`).innerHTML = build.pipeline.description;
 }
 
-const setValuesToPage = (data) => {
-  setIcon(data);
-  setAppDescriotion(data);
+const setBuildDetails = (build) => {
+  document.getElementById(`authorName-${build.pipeline.name}`).innerHTML = build.creator.name;
+  document.getElementById(`buildLink-${build.pipeline.name}`).href = build.web_url;
+  // document.getElementById(`authorName-${build.pipeline.name}`).innerHTML = build.creator.name;
+}
+
+const setValuesToPage = (build) => {
+  setIcon(build);
+  setAppDescription(build);
+  setBuildDetails(build);
 }
 
 let token = '';
@@ -36,43 +62,34 @@ tokenBtn.addEventListener('click', (e) => {
 })
 
 
-const buildState = {
-  state: '',
-  number: '',
-  message: '',
-  applicationName: 'niss-ui'
+const oldBuildState = {
+  builds: []
 }
 
-const setState = (newState) => {
-  buildState.state = newState.state;
-  buildState.number = newState.number;
-  buildState.message = newState.message;
+const setOldBuildState = (newState) => {
+  oldBuildState.builds = newState;
 }
 
-const notifyIfStateChanged = (newStatus, oldState) => {
-  const notification = {
-    title: 'BK Alert',
-    body: `BK build changed to ${newStatus}`
-  }
-
-  if(oldState.state && oldState.state !== newStatus.state) {
-    new window.Notification(notification.title, notification);
+const checkIfNotificationNeeded = (newState) => {
+  const index = oldBuildState.builds.findIndex((e) => e.pipeline.name === newState.pipeline.name);
+  if (index !== -1) {
+    notifyIfStateChanged(newState, oldBuildState.builds[index])
   }
 }
 
 const getBuild = () => {
   return Promise.all([getNissUiBuild(token), getNissAdminBuild(token), getNissNailgunBuild(token), getNissProviderBuild(token)])
     .then((data) => {
-      // notifyIfStateChanged(data[0], buildState)
-      return data;
-    })
-    .then((data) => {
-      // setState(data);
-      data.map(setValuesToPage);
+      data.map((build) => composeFunctions(setValuesToPage(build), checkIfNotificationNeeded(build), test(build)));
       ipcRenderer.send('fetched-build-status');
       return data;
     })
+    .then(data => { 
+      setOldBuildState(data)
+    })
 }
+
+const test = (arg) => console.log(oldBuildState)
 
 // getBuild();
 setInterval(getBuild, THIRTY_SECONDS);

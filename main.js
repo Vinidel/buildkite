@@ -1,24 +1,24 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow, Menu, shell} = require('electron')
 const ipc = require('electron').ipcMain;
-
 const powerSaveBlocker = require('electron').powerSaveBlocker;
 const id = powerSaveBlocker.start('prevent-app-suspension');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
-require('electron-reload')(__dirname)
+// require('electron-reload')(__dirname)
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 400, height: 600})
-
+  mainWindow = new BrowserWindow({width: 515, height: 600, resizable: false})
+  // mainWindow = new BrowserWindow({width: 1000, height: 600})
+  
   // and load the index.html of the app.
   mainWindow.loadFile('src/index.html')
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -82,6 +82,7 @@ app.on('activate', function () {
     createWindow()
   }
 })
+
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
