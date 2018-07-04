@@ -6,6 +6,16 @@ const getBuildStatus = require('./services/getBuildStatus');
 const composeFunctions = require('./utils/composeFunctions');
 const notifyIfStateChanged = require('./notifications/notifyIfChanged');
 
+//AlertStatus Button
+let alertConfigState = 'ON';
+document.getElementById('alertBtn').addEventListener('click', () => {
+  const alertStatus = document.getElementById('alertStatus')
+  const newBtnTextStatus = alertStatus.innerText === 'ON' ? 'OFF' : 'ON'; 
+  alertConfigState = alertStatus.innerText; 
+  alertStatus.innerText = newBtnTextStatus; 
+})
+
+
 //Button Token
 const tokenBtn = document.getElementById('tokenBtn');
 const nissUiUrl = 'https://api.buildkite.com/v2/organizations/nib-health-funds-ltd/pipelines/niss-ui/builds?branch=master';
@@ -71,25 +81,36 @@ const setOldBuildState = (newState) => {
 }
 
 const checkIfNotificationNeeded = (newState) => {
-  const index = oldBuildState.builds.findIndex((e) => e.pipeline.name === newState.pipeline.name);
-  if (index !== -1) {
-    notifyIfStateChanged(newState, oldBuildState.builds[index])
+  if (alertConfigState === 'ON') {
+    const index = oldBuildState.builds.findIndex((e) => e.pipeline.name === newState.pipeline.name);
+    if (index !== -1) {
+      notifyIfStateChanged(newState, oldBuildState.builds[index])
+    }
   }
 }
 
 const getBuild = () => {
+  document.getElementById('errorContainer').style.display = 'none';
   return Promise.all([getNissUiBuild(token), getNissAdminBuild(token), getNissNailgunBuild(token), getNissProviderBuild(token)])
     .then((data) => {
-      data.map((build) => composeFunctions(setValuesToPage(build), checkIfNotificationNeeded(build), test(build)));
+      data.map((build) => composeFunctions(setValuesToPage(build), checkIfNotificationNeeded(build)));
       ipcRenderer.send('fetched-build-status');
       return data;
     })
     .then(data => { 
       setOldBuildState(data)
     })
+    .catch(e => {
+      setErrorToPage(e.message);
+    })
 }
 
-const test = (arg) => console.log(oldBuildState)
+const setErrorToPage = (errorMessage) => {
+  document.getElementById('errorContainer').style.display = 'block'
+  document.getElementById('errorText').innerHTML = errorMessage || '';
+}
+
+// const test = (arg) => console.log(oldBuildState)
 
 // getBuild();
 setInterval(getBuild, THIRTY_SECONDS);

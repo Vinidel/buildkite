@@ -21,9 +21,12 @@ module.exports = (build) => {
     case 'passed':
       setGreenIcon(build.pipeline.name);
     break;
+    case 'cancelling':
+    case 'canceled':
     case 'failed':
       setRedIcon(build.pipeline.name);
     break;
+    case 'scheduled':
     case 'running':
       setYellowIcon(build.pipeline.name);
      break;

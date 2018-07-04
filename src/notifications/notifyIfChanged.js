@@ -1,7 +1,7 @@
 module.exports = (newState, oldState) => {
   const notification = {
     title: 'BK Alert',
-    body: `You have a build status change`
+    body: `${newState.pipeline.name} status is ${newState.state}`
   }
 
   if(oldState.state && oldState.state !== newState.state) {

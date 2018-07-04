@@ -19,11 +19,19 @@
           </div>
         </div>
       </div>
+
+      <div id="errorContainer" class="container" style="display: none;">
+        <div class="flex items-stretch border border-gray rounded px2 mb2 panel-danger panel-heading" style="height: 82px;     color: #a94442;
+        background-color: #f2dede;
+        border-color: #ebccd1;">
+          An error has occurred: &nbsp;<span id="errorText"></span>
+        </div>
+      </div>
   <div class="container">
 
     <div>
         <div class="relative light" style="display: inline-block; width: 74%">
-            <input id="tokenInput" type="text" class="input center"  placeholder="Paste the token here" style="display: inline-block;">
+            <input id="tokenInput" type="text" class="input center"  placeholder="API Token" style="display: inline-block;">
           </div>
           <div class="" style="display: inline-block;  width: 25%">
               <button id="tokenBtn" class="btn nowrap btn-primary">Get my builds</button>
@@ -181,6 +189,10 @@
         </div>
       </div>
     </div>
+
+    <div class="" style="display: inline-block;  width: 25%;">
+      <button id="alertBtn" class="btn nowrap btn-primary" style="background-color: #f7504e;">Turn Alerts <span id="alertStatus">OFF</span</button>
+  </div>
   </div>
 
 </div>
